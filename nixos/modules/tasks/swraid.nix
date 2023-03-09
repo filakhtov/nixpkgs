@@ -17,11 +17,11 @@ in {
   };
 
   config = {
-    environment.systemPackages = [ pkgs.mdadm ];
+    environment.systemPackages = lib.mkIf cfg.enable [ pkgs.mdadm ];
 
-    services.udev.packages = [ pkgs.mdadm ];
+    services.udev.packages = lib.mkIf cfg.enable [ pkgs.mdadm ];
 
-    systemd.packages = [ pkgs.mdadm ];
+    systemd.packages = lib.mkIf cfg.enable [ pkgs.mdadm ];
 
     boot.initrd.availableKernelModules = lib.mkIf (config.boot.initrd.systemd.enable -> cfg.enable) [ "md_mod" "raid0" "raid1" "raid10" "raid456" ];
 
